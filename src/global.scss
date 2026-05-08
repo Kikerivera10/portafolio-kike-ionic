@@ -35,3 +35,42 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+ion-title {
+  font-size: 11px; /* Letras más pequeñas y elegantes */
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+/* Forzar el color blanco en el botón de menú */
+ion-menu-button {
+  --color: #ffffff !important; 
+  
+  /* Esto asegura que el icono interno (el svg) también sea blanco */
+  ion-icon {
+    color: #ffffff !important;
+  }
+}
+
+/* Ajuste adicional por si el toolbar tiene un modo que lo oscurece */
+ion-toolbar {
+  --color: #ffffff !important;
+  
+  ion-buttons[slot="end"] {
+    color: #ffffff !important;
+  }
+}
+
+/* Ajuste del icono/foto JR */
+.header-avatar {
+  width: 32px;  /* Reducido de 40px a 32px */
+  height: 32px; /* Reducido de 40px a 32px */
+  border: 1px solid #333;
+  
+  img {
+    transform: scale(0.9); /* Hace que el contenido JR se vea más pequeño dentro */
+  }
+}

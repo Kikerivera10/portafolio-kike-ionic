@@ -1,0 +1,37 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="md">
+    <!-- Logo/Avatar a la izquierda -->
+    <ion-avatar slot="start" class="header-avatar">
+      <img src="../../../assets/img/foto_perfil.jpg" />
+    </ion-avatar>
+    
+    <!-- Título centrado -->
+    <ion-title>Kike Portafolio</ion-title>
+    
+    <!-- Botón de menú a la derecha -->
+    <ion-buttons slot="end">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<div class="form-container">
+  <div class="input-group">
+    <label>TU NOMBRE</label>
+    <input type="text" [(ngModel)]="contacto.nombre" placeholder="Escribe tu nombre">
+  </div>
+
+  <div class="input-group">
+    <label>EMAIL</label>
+    <input type="email" [(ngModel)]="contacto.email" placeholder="ejemplo@correo.com">
+  </div>
+
+  <div class="input-group">
+    <label>MENSAJE</label>
+    <textarea rows="4" [(ngModel)]="contacto.mensaje" placeholder="Cuéntame sobre tu idea..."></textarea>
+  </div>
+
+  <ion-button expand="block" mode="ios" class="btn-black" (click)="enviarFormulario()">
+    Enviar Mensaje
+  </ion-button>
+</div>
