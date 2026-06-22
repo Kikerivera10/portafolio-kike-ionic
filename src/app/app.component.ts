@@ -14,7 +14,8 @@ import {
   IonIcon,
   IonLabel,
   IonRouterOutlet,
-  IonRouterLink
+  IonRouterLink,
+  IonButton
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -33,7 +34,10 @@ import {
   warningOutline,
   warningSharp,
   bookmarkOutline,
-  bookmarkSharp
+  bookmarkSharp,
+  gameControllerOutline,
+  trophyOutline,
+  sparklesOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -57,30 +61,26 @@ import {
     IonIcon,
     IonLabel,
     IonRouterLink,
-    IonRouterOutlet
+    IonRouterOutlet,
+    IonButton
   ],
 })
 export class AppComponent {
-  // Configuración de las páginas del menú lateral
   public appPages = [
     { title: 'Inicio', url: '/inicio', icon: 'home' },
     { title: 'Información Personal', url: '/informacion', icon: 'person' },
     { title: 'Contacto', url: '/contacto', icon: 'mail' },
   ];
-  // public appPages = [
-  //   { title: 'Inicio', url: '/inicio', icon: 'homeOutline' },
-  //   { title: 'Información Personal', url: '/informacion', icon: 'personOutline' },
-  //   { title: 'Contacto', url: '/contacto', icon: 'mailOutline' },
-  // ];
 
-  // Etiquetas secundarias del menú
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public juegoActivo: boolean = false;
+  public puntuacion: number = 0;
+  public record: number = Number(localStorage.getItem('kike_game_record')) || 0;
+  public tiempoRestante: number = 10;
+  public botonPosicionLeft: string = '40%';
+  public botonPosicionTop: string = '20px';
+  private juegoInterval: any;
 
   constructor() {
-    /**
-     * Registro de iconos. 
-     * Mapeamos nombres cortos ('home') a las constantes reales (homeOutline).
-     */
     addIcons({
       'home-outline': homeOutline,
       'person-outline': personOutline,
@@ -100,7 +100,50 @@ export class AppComponent {
       'warning-outline': warningOutline,
       'warning-sharp': warningSharp,
       'bookmark-outline': bookmarkOutline,
-      'bookmark-sharp': bookmarkSharp
+      'bookmark-sharp': bookmarkSharp,
+      'game-controller-outline': gameControllerOutline,
+      'trophyOutline': trophyOutline,
+      'sparklesOutline': sparklesOutline
     });
+  }
+
+  iniciarJuego() {
+    this.juegoActivo = true;
+    this.puntuacion = 0;
+    this.tiempoRestante = 10;
+    this.moverBoton();
+
+    this.juegoInterval = setInterval(() => {
+      this.tiempoRestante--;
+      if (this.tiempoRestante <= 0) {
+        this.finalizarJuego();
+      }
+    }, 1000);
+  }
+
+  registrarClic(event: Event) {
+    event.stopPropagation();
+    if (!this.juegoActivo) return;
+    
+    this.puntuacion++;
+    this.moverBoton();
+  }
+
+
+  moverBoton() {
+    const randomLeft = Math.floor(Math.random() * 65) + 5;
+    const randomTop = Math.floor(Math.random() * 40) + 10;
+    this.botonPosicionLeft = `${randomLeft}%`;
+    this.botonPosicionTop = `${randomTop}px`;
+  }
+
+  finalizarJuego() {
+    clearInterval(this.juegoInterval);
+    this.juegoActivo = false;
+    
+    if (this.puntuacion > this.record) {
+      this.record = this.puntuacion;
+      localStorage.setItem('kike_game_record', this.record.toString());
+    }
   }
 }

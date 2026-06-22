@@ -31,7 +31,7 @@
       Descargar CV <ion-icon name="download-outline" slot="end"></ion-icon>
     </ion-button>
     <ion-button expand="block" mode="ios" fill="outline" class="btn-outline"
-      href="mailto:kikerivera8@gmail.com?subject=Propuesta de Proyecto - Elite Portfolio&body=Hola José, he visto tu portafolio y me gustaría contactarte para...">
+      href="mailto:kikerivera8@gmail.com?subject=Propuesta de Proyecto - Elite Portfolio&body=Hola José, he visto tu portafolio and me gustaría contactarte para...">
       Ponerse en contacto
     </ion-button>
   </div>
@@ -48,114 +48,43 @@
 
   <div class="section-label">PROYECTOS DESTACADOS</div>
 
-  <div class="project-card no-image featured-project">
+  <div class="fase2-controls-container" style="margin-bottom: 20px;">
+    <ion-searchbar mode="ios" placeholder="Buscar proyecto o tecnología..." (ionInput)="buscarProyecto($event)"></ion-searchbar>
+    
+    <div class="filter-chips-row" style="display: flex; overflow-x: auto; padding: 5px 0; gap: 8px;">
+      <ion-chip mode="ios" (click)="filtrarPorTecnologia('Todos')" [color]="tecnologiaSeleccionada === 'Todos' ? 'primary' : ''">Todos</ion-chip>
+      <ion-chip mode="ios" (click)="filtrarPorTecnologia('Python')" [color]="tecnologiaSeleccionada === 'Python' ? 'primary' : ''">Python</ion-chip>
+      <ion-chip mode="ios" (click)="filtrarPorTecnologia('JavaScript')" [color]="tecnologiaSeleccionada === 'JavaScript' ? 'primary' : ''">JavaScript</ion-chip>
+      <ion-chip mode="ios" (click)="filtrarPorTecnologia('SQL')" [color]="tecnologiaSeleccionada === 'SQL' ? 'primary' : ''">SQL Server</ion-chip>
+      <ion-chip mode="ios" (click)="filtrarPorTecnologia('3D')" [color]="tecnologiaSeleccionada === '3D' ? 'primary' : ''">3D Printing</ion-chip>
+    </div>
+  </div>
+
+  <div class="project-card no-image" 
+       *ngFor="let proyecto of proyectosFiltrados" 
+       [ngClass]="{'featured-project': proyecto.badge}">
     <div class="project-info">
-      <div class="project-header">
-        <h3>A.U.R.A. (ADMINISTRADOR UNIFICADO DE RECURSOS AUTOGESTIONABLES)</h3>
-        <span class="badge">PROYECTO INSIGNIA</span>
+      <div class="project-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <h3>{{ proyecto.titulo }}</h3>
+          <span class="badge" *ngIf="proyecto.badge">{{ proyecto.badge }}</span>
+        </div>
+        <ion-button fill="clear" (click)="toggleFavorito(proyecto.id)" size="small">
+          <ion-icon [name]="esFavorito(proyecto.id) ? 'bookmark' : 'bookmark-outline'" color="warning" slot="icon-only"></ion-icon>
+        </ion-button>
       </div>
-      <p>
-        Orquestador unificado de alto nivel desarrollado para la Corporación Digitel. Esta plataforma web fue concebida
-        para centralizar y automatizar la gestión de líneas prepago y postpago dentro de entornos de aseguramiento de
-        calidad (QA).
-      </p>
-      <p class="detail-text">
-        El sistema actúa como una capa de abstracción sobre APIs SOAP/XML complejas, permitiendo que departamentos de
-        Producto, Integración y Calidad realicen ajustes de saldo, cambios de planes y limpiezas de estatus de forma
-        autónoma. Esto redujo drásticamente la dependencia de intervención manual técnica, acelerando el
-        "Time-to-Market" de nuevos servicios.
-      </p>
+      <p>{{ proyecto.descripcion }}</p>
+      <p class="detail-text">{{ proyecto.detalle }}</p>
+      
       <div class="tag-row">
-        <span>Python / Django</span>
-        <span>SOAP API</span>
-        <span>QA Automation</span>
+        <span *ngFor="let tag of proyecto.tags">{{ tag }}</span>
       </div>
     </div>
   </div>
 
-  <div class="project-card no-image">
-    <div class="project-info">
-      <h3>SISTEMA INTEGRAL DE CONTROL DE ESTUDIOS (UNE)</h3>
-      <p>
-        Desarrollo y modernización de la infraestructura digital de gestión académica para la Universidad Nueva Esparta.
-        El proyecto abarcó la digitalización completa del flujo de vida del estudiante, desde la pre-inscripción hasta
-        el egreso.
-      </p>
-      <p class="detail-text">
-        Implementé módulos robustos para el control de expedientes, carga masiva de notas y generación automatizada de
-        actas académicas. La solución optimizó la comunicación entre la secretaría y el cuerpo docente, garantizando la
-        integridad de los datos académicos y simplificando procesos que anteriormente requerían múltiples validaciones
-        manuales.
-      </p>
-      <div class="tag-row">
-        <span>HTML</span>
-        <span>CSS</span>
-        <span>JavaScript</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="project-card no-image">
-    <div class="project-info">
-      <h3>PLATAFORMA DE MONITOREO CRÍTICO CORE VOZ</h3>
-      <p>
-        Diseño de una interfaz de control en tiempo real para el monitoreo de tráfico nacional en Telefónica (Movistar).
-        El desafío consistió en la extracción de datos brutos desde switches de red nacionales para convertirlos en
-        información analítica accionable.
-      </p>
-      <p class="detail-text">
-        Utilizando una arquitectura basada en SQL para el almacenamiento y Grafana para la visualización, logré
-        desplegar tableros dinámicos que reflejan métricas de llamadas, SMS y consumo de datos. Esta herramienta permite
-        al equipo de operaciones identificar anomalías en la red de forma instantánea, garantizando la continuidad del
-        servicio a nivel nacional.
-      </p>
-      <div class="tag-row">
-        <span>Grafana</span>
-        <span>PRTG Integration</span>
-        <span>SQL Server</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="project-card no-image">
-    <div class="project-info">
-      <h3>SISTEMA DE GESTIÓN TECNOLÓGICA NUCLEAR (IVIC)</h3>
-      <p>
-        Desarrollo de un software de inventario especializado para la unidad tecnológica nuclear del Instituto
-        Venezolano de Investigaciones Científicas. Debido a la naturaleza sensible de los activos, el sistema requirió
-        un enfoque estricto en seguridad y trazabilidad.
-      </p>
-      <p class="detail-text">
-        Fui responsable de todo el ciclo de vida: maquetado de UI, arquitectura de backend y documentación técnica
-        exhaustiva. La aplicación permite un control riguroso de componentes y recursos científicos, integrando flujos
-        de aprobación y reportes de auditoría que cumplen con los estándares institucionales de investigación.
-      </p>
-      <div class="tag-row">
-        <span>CodeIgniter 3</span>
-        <span>JavaScript</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="project-card no-image">
-    <div class="project-info">
-      <h3>HEXA 3D: PLATAFORMA DE FABRICACIÓN DIGITAL</h3>
-      <p>
-        Ecosistema digital para la gestión de un emprendimiento de fabricación aditiva. Este proyecto fusiona el
-        desarrollo web con la ingeniería de hardware, permitiendo la personalización y comercialización de accesorios
-        impresos en 3D.
-      </p>
-      <p class="detail-text">
-        La plataforma gestiona el catálogo de productos, la recepción de diseños personalizados y el seguimiento de
-        pedidos. Es el punto de unión donde mis capacidades de diseño gráfico (Illustrator) se encuentran con la
-        programación para ofrecer una experiencia de usuario fluida en el mundo de la manufactura digital.
-      </p>
-      <div class="tag-row">
-        <span>Illustrator</span>
-        <span>E-commerce</span>
-        <span>3D Printing</span>
-      </div>
-    </div>
+  <div *ngIf="proyectosFiltrados.length === 0" style="text-align: center; color: var(--ion-color-medium); padding: 40px 20px;">
+    <ion-icon name="search-outline" style="font-size: 48px; margin-bottom: 10px; color: var(--ion-color-step-300);"></ion-icon>
+    <p>No se encontraron resultados que coincidan con los criterios de búsqueda.</p>
   </div>
 
   <div class="spacer"></div>

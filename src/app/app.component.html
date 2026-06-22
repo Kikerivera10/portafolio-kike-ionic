@@ -1,15 +1,15 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
+      <ion-content class="ion-padding-bottom">
+        
         <ion-list id="inbox-list">
-          <ion-list-header>José Rivera</ion-list-header>
-          <ion-note>kikerivera8@gmail.com</ion-note>
+          <ion-list-header style="padding-top: 15px;">José Rivera</ion-list-header>
+          <ion-note style="margin-bottom: 15px; display: block;">kikerivera8@gmail.com</ion-note>
 
           @for (p of appPages; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-                <!-- <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon> -->
                 <ion-icon slot="start" [name]="p.icon"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
@@ -17,6 +17,48 @@
           }
         </ion-list>
 
+        <div style="margin: 25px 16px 10px 16px; padding-top: 15px; border-top: 1px solid var(--ion-color-step-200);">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--ion-color-step-600);">
+            <ion-icon name="game-controller-outline" style="font-size: 18px;"></ion-icon>
+            <span style="font-size: 11px; font-weight: 600; letter-spacing: 1px;">ÁREA DE RECREO (LOCAL)</span>
+          </div>
+
+          <div style="background: var(--ion-color-step-50, #1e1e1e); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid var(--ion-color-step-150);">
+            
+            <div *ngIf="!juegoActivo">
+              <p style="font-size: 12px; margin: 0 0 8px 0; color: var(--ion-color-medium);">
+                ¿Listo para evaluar la reactividad fina del DOM?
+              </p>
+              
+              <div style="display: flex; justify-content: space-around; font-size: 11px; margin-bottom: 10px;">
+                <span>Puntos: <strong>{{ puntuacion }}</strong></span>
+                <span style="color: var(--ion-color-warning);">
+                  <ion-icon name="trophyOutline" style="vertical-align: middle;"></ion-icon> Record: <strong>{{ record }}</strong>
+                </span>
+              </div>
+
+              <ion-button expand="block" size="small" mode="ios" color="primary" (click)="iniciarJuego()">
+                Probar NovaClicker
+              </ion-button>
+            </div>
+
+            <div *ngIf="juegoActivo" style="position: relative; min-height: 140px; overflow: hidden; background: var(--ion-color-step-100, #121212); border-radius: 8px;">
+              
+              <div style="display: flex; justify-content: space-between; padding: 6px; font-size: 11px; background: rgba(0,0,0,0.2); font-weight: 600;">
+                <span style="color: var(--ion-color-success);">Tiempo: {{ tiempoRestante }}s</span>
+                <span style="color: var(--ion-color-primary);">Score: {{ puntuacion }}</span>
+              </div>
+
+              <div [style.left]="botonPosicionLeft" 
+                   [style.top]="botonPosicionTop" 
+                   (click)="registrarClic($event)"
+                   style="position: absolute; width: 40px; height: 40px; background: var(--ion-color-warning, #ffd534); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 12px var(--ion-color-warning); transition: all 0.1s ease-in-out; z-index: 10;">
+                <ion-icon name="sparklesOutline" style="color: #000; font-size: 20px; font-weight: bold;"></ion-icon>
+              </div>
+            </div>
+
+          </div>
+        </div>
 
       </ion-content>
     </ion-menu>
